@@ -1,0 +1,47 @@
+{
+  "_doc": "Per-embodiment action layouts of the Doppel models. Every action is a (17, D) array of per-frame STATES (not deltas), frame-aligned with the 17 video frames of a clip (frame 0 = the conditioning image). Inference z-scores it with assets/action_stats/<robot_type>.json, sets slots with dof_mask 0 to exactly 0, and (for the 8-embodiment model) zero-extends it to 159 slots. Rotations of SMPL-X/H are axis-angle; their root slots 0-2 are unwrapped per clip before the z-score. 'fps' is the native frame rate of the source video; training clips sample 17 frames from it (see README, data format).",
+  "action_pad_dim_emb8": 159,
+  "embodiments": {
+    "panda": {
+      "dataset": "DROID", "id": 0, "D": 8, "fps": 15.0,
+      "layout": [["0:7", "Franka Panda joint positions j1..j7 (rad)"], ["7", "gripper closure, 0 open .. 1 closed"]],
+      "dof_mask": "all 8 slots live"
+    },
+    "ur5e_2f85": {
+      "dataset": "RoboMIND", "id": 1, "D": 8, "fps": 10.0,
+      "layout": [["0:6", "UR5e joint positions j1..j6 (rad)"], ["6", "unused, always 0"], ["7", "Robotiq 2F-85 closure, 0 open .. 1 closed"]],
+      "dof_mask": "slot 6 = 0"
+    },
+    "widowx": {
+      "dataset": "Bridge", "id": 2, "D": 8, "fps": 5.0,
+      "layout": [["0:6", "WidowX 250 joint positions j1..j6 (rad)"], ["6", "unused, always 0"], ["7", "gripper closure, 0 open .. 1 closed"]],
+      "dof_mask": "slot 6 = 0"
+    },
+    "smplx_human": {
+      "dataset": "OakInk2", "id": 3, "D": 159, "fps": 30.0,
+      "layout": [["0:3", "global orientation, axis-angle, camera frame (unwrapped per clip)"], ["3:6", "pelvis translation (m), camera frame"], ["6:69", "21 SMPL-X body joints x 3, axis-angle"], ["69:114", "15 left-hand joints x 3, axis-angle (MANO order: index, middle, pinky, ring, thumb)"], ["114:159", "15 right-hand joints x 3, same order"]],
+      "dof_mask": "42 slots = 0: the 8 lower-body joints (hips, knees, ankles, feet) and the finger PIP/DIP y axes plus index-DIP x per hand (constant in the OakInk2 fits); see doppel.data_multi._smplx_human_dof_mask"
+    },
+    "yam_bimanual": {
+      "dataset": "ABC", "id": 4, "D": 14, "fps": 30.0,
+      "layout": [["0:6", "left YAM arm joints j1..j6 (rad)"], ["6", "left gripper closure, 0 open .. 1 closed"], ["7:13", "right YAM arm joints j1..j6 (rad)"], ["13", "right gripper closure, 0 open .. 1 closed"]],
+      "dof_mask": "all 14 slots live"
+    },
+    "mano_hands": {
+      "dataset": "GigaHands", "id": 5, "D": 108, "fps": 30.0,
+      "layout": [["0:6", "left wrist orientation, first two columns of the camera-frame rotation matrix (r00 r10 r20 r01 r11 r21)"], ["6:9", "left wrist position (m), camera frame"], ["9:54", "15 left finger joints x 3, local axis-angle, full rotations (MANO order: index, middle, pinky, ring, thumb)"], ["54:108", "right hand, same layout"]],
+      "dof_mask": "all 108 slots live"
+    },
+    "smplh_human": {
+      "dataset": "Ego-Exo4D", "id": 6, "D": 159, "fps": 30.0,
+      "layout": "same 159-D layout as smplx_human (SMPL-H body + hands)",
+      "dof_mask": "all 159 slots live"
+    },
+    "vega1_sharpa": {
+      "dataset": "T-Rex", "id": 7, "D": 58, "fps": 30.0,
+      "layout": [["0:7", "left Vega-1 arm joints j1..j7 (rad)"], ["7:29", "left Sharpa Wave hand, 22 joints (rad)"], ["29:36", "right arm joints j1..j7 (rad)"], ["36:58", "right hand, 22 joints (rad)"]],
+      "hand_joint_order": ["thumb_CMC_FE", "thumb_CMC_AA", "thumb_MCP_FE", "thumb_MCP_AA", "thumb_IP", "index_MCP_FE", "index_MCP_AA", "index_PIP", "index_DIP", "middle_MCP_FE", "middle_MCP_AA", "middle_PIP", "middle_DIP", "ring_MCP_FE", "ring_MCP_AA", "ring_PIP", "ring_DIP", "pinky_CMC", "pinky_MCP_FE", "pinky_MCP_AA", "pinky_PIP", "pinky_DIP"],
+      "dof_mask": "all 58 slots live"
+    }
+  }
+}

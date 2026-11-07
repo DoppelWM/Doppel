@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doppel"
+version = "0.1.0"
+description = "Doppel: one video world model across embodiments, conditioned on embodiment renderings and actions (Wan 2.1 I2V backbone)."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+  { name = "Yash Jangir" }, { name = "Karan Mirakhor" }, { name = "Renos Zabounidis" },
+  { name = "Muhammad Zubair Irshad" }, { name = "Sergey Zakharov" }, { name = "Yonatan Bisk" },
+  { name = "Homanga Bharadhwaj" },
+]
+dependencies = [
+  "torch>=2.5",
+  "diffusers>=0.35,<0.41",   # 0.41 needs torch >= 2.6 (torch.accelerator); tested: 0.40.0
+  "transformers>=4.40.0",
+  "accelerate>=0.30.0",
+  "huggingface_hub",
+  "pandas>=2.0.0",
+  "pyarrow",
+  "pillow>=10.0.0",
+  "numpy>=1.24.0",
+  "imageio>=2.31.0",
+  "imageio-ffmpeg>=0.4.0",
+  "safetensors>=0.4.0",
+  "tqdm",
+]
+
+[project.optional-dependencies]
+# doppel.metrics and scripts/eval (SCS needs SAM 2: https://github.com/facebookresearch/sam2)
+eval = ["scikit-image>=0.21", "scipy", "torchmetrics>=1.0", "sam2"]
+# scripts/data and scripts/render (render_robot.py also needs the Dr. Robot codebase it runs inside)
+data = ["h5py", "scipy", "opencv-python", "mujoco"]
+# optional experiment tracking for doppel.train (--wandb_mode online)
+wandb = ["wandb"]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://doppelwm.github.io/"
+
+[tool.setuptools.packages.find]
+include = ["doppel*"]
+
+[tool.setuptools.package-data]
+doppel = ["assets/*.json", "assets/action_stats/*.json"]

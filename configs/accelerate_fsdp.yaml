@@ -1,0 +1,23 @@
+compute_environment: LOCAL_MACHINE
+distributed_type: FSDP
+fsdp_config:
+  # Shard parameters, gradients and optimizer states across GPUs
+  fsdp_sharding_strategy: FULL_SHARD
+  # Each Wan DiT transformer block is one FSDP unit
+  fsdp_auto_wrap_policy: TRANSFORMER_BASED_WRAP
+  fsdp_transformer_layer_cls_to_wrap: WanTransformerBlock
+  fsdp_offload_params: false
+  fsdp_forward_prefetch: true
+  fsdp_backward_prefetch: BACKWARD_PRE
+  fsdp_sync_module_states: true
+  fsdp_use_orig_params: true
+  fsdp_cpu_ram_efficient_loading: true
+  fsdp_state_dict_type: FULL_STATE_DICT
+# The trainer passes the config's `mixed_precision` (bf16) to Accelerator
+# explicitly, which takes precedence over this value.
+mixed_precision: 'no'
+# Override on the command line to match the GPU count:
+#   accelerate launch --num_processes <N> --config_file configs/accelerate_fsdp.yaml ...
+num_machines: 1
+num_processes: 8
+main_training_function: main

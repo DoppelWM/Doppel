@@ -1,0 +1,28 @@
+# Python 3.10, CUDA GPU. Versions we ran with; install torch/torchvision for your CUDA first.
+torch==2.5.1
+torchvision==0.20.1
+gsplat==1.5.3            # compiles its CUDA kernels on first use (needs nvcc and ninja on PATH)
+ninja
+numpy==2.2.6
+scipy==1.15.3
+pillow
+opencv-python
+imageio[ffmpeg]
+plyfile
+mujoco>=3.0
+pytorch-kinematics
+random-fourier-features-pytorch==1.0.1
+huggingface_hub
+# Bridge: MoGe focal lengths, LeRobot mirror extraction
+moge @ git+https://github.com/microsoft/MoGe.git
+pandas
+pyarrow
+av
+# RoboMIND
+h5py
+# ABC / YAM per-video calibration
+mcap
+mcap-protobuf-support
+sam2 @ git+https://github.com/facebookresearch/sam2.git
+# optional: tools/align_gui.py
+# gradio
