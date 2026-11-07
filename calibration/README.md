@@ -30,8 +30,14 @@ SAM 2.1 `facebook/sam2.1-hiera-small` (Hugging Face).
 
 ## Robot models
 
-The Dr.Robot checkpoints we used are not released yet. Any Dr.Robot model trained from the robot's MJCF works; put it
-in a directory with this layout:
+Our trained Dr.Robot models (Franka FR3, UR5e, WidowX and YAM) are on
+[Hugging Face](https://huggingface.co/sourlreapwr/doppel-drrobot):
+
+```bash
+hf download sourlreapwr/doppel-drrobot --local-dir models
+```
+
+Any Dr.Robot model trained from the robot's MJCF works; it needs this layout:
 
 ```
 models/<name>/

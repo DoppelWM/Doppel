@@ -135,6 +135,7 @@ The rendering is encoded with the frozen Wan VAE, mean-centered and turned into 
 | Model | Training data | Weights |
 | :-- | :-- | :-- |
 | Doppel-8 | 8 datasets, 803,602 clips (about 600 h) | [doppel-emb8](https://huggingface.co/sourlreapwr/doppel-emb8) |
+| Dr.Robot robot models | Franka FR3, UR5e, WidowX, YAM (renderings and calibration) | [doppel-drrobot](https://huggingface.co/sourlreapwr/doppel-drrobot) |
 
 PSNR on 200 held-out clips per split (validation: unseen trajectories / test: unseen scenes or objects), predicted frames 1 to 16:
 
